@@ -1,0 +1,7 @@
+ <h1>Quotes quotes quotes!</h1>
+ <br/>
+ <ul>
+    {% for a in author_names %}
+        <li><a href='/quotes/{{ a }}/'>{{ a }}</a></li>
+    {% endfor %}
+</ul>
