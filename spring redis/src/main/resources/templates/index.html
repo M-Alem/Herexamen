@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th='http://www.thymeleaf.org'>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+
+<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+<script src='/js/app.js'></script>
+
+<title>ask question</title>
+</head>
+
+<body>
+<div class='card card-body bg-light'>
+<h1>Ask your question</h1>
+<br/>
+
+<form th:action='@{/index}' method='POST'>
+		<div class='form-group row'>
+		 	<div class='col-xs-4'>
+				<label for='questionText'>Question : </label>
+		    	<input type='text' class='form-control' name='questionText' id='questionText'>
+	    	</div>
+	    </div>
+		<input type='SUBMIT' value='Save'>
+</form>
+</div>
+
+</body>
+</html>
