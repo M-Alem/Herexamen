@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - QuoteApplication",
+            "request": "launch",
+            "mainClass": "edu.ap.spring.QuoteApplication",
+            "projectName": "demo"
+        }
+    ]
+}
