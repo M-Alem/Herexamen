@@ -1,8 +1,0 @@
-<h1>Add author</h1>
-
-<form action='{% url 'quotes:add_author' %}' method='POST'>
-{% csrf_token %}
-<label for = 'author_name'>author name: </label>
-<input id='author_name' type='text' name='author_name''>
-<input type='submit' value='add' />
-</form>
