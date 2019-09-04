@@ -25,9 +25,14 @@ public class QuoteController {
 	Random rdmgenerator;
 
 	// redirect naar html pagina om authors te adden met postform
-	@GetMapping("")
+	@GetMapping("/ask")
 	public String getQuestionForm(Model model) {
-		answerList.add( "It is certain.");
+		return "index";
+	}
+
+	@PostMapping("/ask")
+	public String AskQuestion(@RequestParam("questionText") String questionText, Model model) {
+		/*answerList.add( "It is certain.");
 		answerList.add( "It is decidedly so.");
 		answerList.add( "Without a doubt.");
 		answerList.add( "Yes - definitely.");
@@ -38,24 +43,37 @@ public class QuoteController {
 		answerList.add( "Cannot predict now.");
 		answerList.add( " My reply is no.");
 		answerList.add( " Outlook not so good.");
-		answerList.add( " Very doubtful.");
-		model.addAttribute("answerAttribute", answerList.get(rdmgenerator.nextInt(answerList.size())));
-		return "index";
+		answerList.add( " Very doubtful.");*/
+		//answerList.get(rdmgenerator.nextInt(answerList.size()));
+		String answerText =  " Very doubtful.";
+		
+		if (this.service.exists("authorcount")) {
+			this.service.incr("authorcount");
+		}
+		else {
+			this.service.setKey("authorcount", "1");
+		}
+
+		if (this.service.exists("quotecount")) {
+			this.service.incr("quotecount");
+		}
+		else {
+			this.service.setKey("quotecount", "1");
+		}
+
+		this.service.setKey("question:" + questionText + ":" + this.service.getKey("authorcount"), questionText);
+		this.service.setKey("answer:" + this.service.getKey("authorcount") + ":" + this.service.getKey("quotecount"), answerText);
+		String authorKey = this.service.keys("question:" + questionText + ":*").iterator().next();
+		return "redirect:answer/"+authorKey.split(":")[2];
 	}
 
-	@PostMapping("")
-	public String AskQuestion(@RequestParam("questionText") String questionText, @RequestParam("answerText") String answerText, Model model) {
-
-		this.service.setKey("question:" + questionText, answerText);
-		return "redirect:answer/"+questionText;
-	}
-
-	@GetMapping("/answer/{questionText}")
-	public String answer(@PathVariable("questionText") int questionText, Model model) {
-		String answer = this.service.keys("question:" + questionText + ":*").iterator().next();
-		model.addAttribute("question", questionText);
+	@GetMapping("/answer/{authorid}")
+	public String answer(@PathVariable("authorid") int authorid,Model model) {
+		String question = this.service.keys("question:*" + ":" + authorid).iterator().next();
+		String answer = "Most likely.";
+		model.addAttribute("question", question);
 		model.addAttribute("answer", answer);
-		return "";
+		return "answer";
 	}
 	
 }
